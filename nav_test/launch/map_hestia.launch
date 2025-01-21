@@ -1,17 +1,14 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" default="hestia" />
-  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+  <arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto, frontier_exploration]"/>
+  <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
   <arg name="open_rviz" default="true"/>
-  <arg name="move_forward_only" default="false"/>
 
   <!-- Tf trees -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="-0.35 0.0 0.06 0.0 0.0 0.0 base_link base_scan"/>
       <!-- Ground is 8cm below base_link --> 
   <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_link" args="0.0 0.0 0.0 0.0 0.0 0.0 base_footprint base_link" /> 
-
-  <!-- Laser Filter -->
-  <include file="$(find nav_test)/launch/scan_filter.launch"/>
 
   <!--Hoverboard driver-->
   <param name="port" type="str" value="/dev/ttyUSB1"/>
@@ -28,21 +25,15 @@
     <param name="angle_compensate"    type="bool"   value="true"/>
   </node>
 
-  <!-- Map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
-
-  <!-- AMCL -->
-  <include file="$(find nav_test)/launch/amcl.launch"/>
-
-  <!-- move_base -->
-  <include file="$(find nav_test)/launch/move_base.launch">
-    <arg name="model" value="$(arg model)" />
-    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
+  <include file="$(find nav_test)/launch/gmapping.launch">
+    <arg name="model" value="$(arg model)"/>
+    <arg name="configuration_basename" value="$(arg configuration_basename)"/>
   </include>
 
   <!-- rviz -->
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+          args="-d $(find turtlebot3_slam)/rviz/turtlebot3_$(arg slam_methods).rviz"/>
   </group>
 </launch>
