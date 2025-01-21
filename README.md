@@ -41,10 +41,10 @@ See the usage explanation accessing each package in the repository or below
 
 ```bash
 # Clone
-git clone https://github.com/UtBotsAtHome-UTFPR/utbots_navigation.git
+git clone https://github.com/UtBotsAtHome-UTFPR/nav_test.git
 
 # Compile YDLidar SDK
-roscd utbots_navigation ydlidar_ros_driver/YDLidar-SDK/build/
+roscd nav_test ydlidar_ros_driver/YDLidar-SDK/build/
 cmake ..
 make
 sudo make install
