@@ -1,12 +1,12 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" default="hestia"/>
-  <!--
-    <arg name="open_rviz" default="true"/>
-    <arg name="move_forward_only" default="false"/>
-  -->
 
-  <arg name="map_file" default="~/map.yaml"/><!--Ainda não tem mapa aqui-->
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+
+
+  <arg name="map_file" default="/home/laser/catkin_ws/src/turtlebot3/turtlebot3_navigation/maps/map.yaml"/><!--Ainda não tem mapa aqui-->
 
   <!-- Turtlebot3 -->
   <!--<include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
@@ -18,6 +18,7 @@
   -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="0.1 0 0.08 0 pi pi base_link laser" />
   <node pkg="tf2_ros" type="static_transform_publisher" name="scan_link" args="0 0 0 0 0 0 laser scan" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint" args="0 0 0 0 0 0 base_link base_footprint" />
   <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link" args="0 0 0 0 0 0 base_link odom" /> -->
 
   <!-- Map server -->
@@ -27,12 +28,12 @@
   <!--<include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>-->
   <include file="$(find nav_test)/launch/amcl.launch"/>
 
-  <include file="$(find hoverboard-driver)/launch/hoverboard.launch"/>
+  <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
 
   <!-- move_base -->
   <include file="$(find nav_test)/launch/move_base.launch">
     <arg name="model" value="$(arg model)" />
-    <arg name="move_forward_only" value="false">
+    <arg name="move_forward_only" value="false" />
   </include>
 
   <!-- rviz -->
