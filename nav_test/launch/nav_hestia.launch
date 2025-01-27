@@ -1,12 +1,12 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" default="hestia" />
-  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+  <arg name="map_file" default="/home/laser/map_corredor.yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
   <!-- Tf trees -->
-  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="-0.35 0.0 0.06 0.0 0.0 0.0 base_link base_scan"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="0.35 0.0 0.06 0.0 0.0 1.0 0.0 base_link base_scan"/>
       <!-- Ground is 8cm below base_link --> 
   <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_link" args="0.0 0.0 0.0 0.0 0.0 0.0 base_footprint base_link" /> 
 

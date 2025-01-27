@@ -4,11 +4,13 @@
   <arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto, frontier_exploration]"/>
   <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
   <arg name="open_rviz" default="true"/>
-
   <!-- Tf trees -->
-  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="-0.35 0.0 0.06 0.0 0.0 0.0 base_link base_scan"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="0.35 0.0 0.06 0.0 0.0 1.0 0.0 base_link base_scan"/>
       <!-- Ground is 8cm below base_link --> 
   <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_link" args="0.0 0.0 0.0 0.0 0.0 0.0 base_footprint base_link" /> 
+
+  <!-- Laser Filter -->
+  <include file="$(find nav_test)/launch/scan_filter.launch"/>
 
   <!--Hoverboard driver-->
   <param name="port" type="str" value="/dev/ttyUSB1"/>
@@ -29,6 +31,7 @@
   <include file="$(find nav_test)/launch/gmapping.launch">
     <arg name="model" value="$(arg model)"/>
     <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+    <arg name="scan_topic" value="scan_filtered"/>
   </include>
 
   <!-- rviz -->
