@@ -14,7 +14,7 @@
   <include file="$(find nav_test)/launch/scan_filter.launch"/>
 
   <!--Hoverboard driver-->
-  <param name="port" type="str" value="/dev/ttyUSB1"/>
+  <param name="port" type="str" value="/dev/ttyUSB0"/>
   <remap from="/hoverboard_velocity_controller/odom" to="/odom"/>
   <remap from="/hoverboard_velocity_controller/cmd_vel" to="/cmd_vel"/>
   <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
